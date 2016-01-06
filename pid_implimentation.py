@@ -152,7 +152,6 @@ def run(param1):
         movedrobot = myrobot.move(steering, speed)
         print movedrobot.__repr__()
         myrobot.set(movedrobot.x, movedrobot.y, movedrobot.orientation)
-        N = N-1
         distance = movedrobot.y
 
 
