@@ -133,31 +133,26 @@ class robot:
         return '[x=%.5f y=%.5f orient=%.5f]' % (self.x, self.y,
                                                 self.orientation)
 
-############## ADD / MODIFY CODE BELOW ####################
-
 # ------------------------------------------------------------------------
 #
 # run - does a single control run
 
 
-def run(param1):
+def run(param1, param2):
     myrobot = robot()
     myrobot.set(0.0, 1.0, 0.0)
     speed = 1.0  # motion distance is equal to speed (we assume time = 1)
     N = 100
-    distance = 1.0
+    error_y = 1.0
+    priv_error_y = 1.0
     for i in xrange(N):
-        # implimenting proportional controller
-        steering = - param1 * distance
+        # implimenting proportional and differencial controller
+        steering = - param1 * error_y - param2 * (error_y - priv_error_y)
         movedrobot = myrobot.move(steering, speed)
         print movedrobot.__repr__()
+        priv_error_y = myrobot.y
         myrobot.set(movedrobot.x, movedrobot.y, movedrobot.orientation)
-        N = N-1
-        distance = movedrobot.y
+        error_y = movedrobot.y
 
 
-    #
-    # Add Code Here
-    #
-
-run(0.1)  # call function with parameter tau of 0.1 and print results
+run(0.1, 3.0)  # call function with parameter tau of 0.1 and print results
